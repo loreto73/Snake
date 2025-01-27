@@ -1,6 +1,8 @@
 import turtle
 import random
 
+import turtle
+
 class Snake:
     def __init__(self):
         self.head = turtle.Turtle()
@@ -10,12 +12,14 @@ class Snake:
         self.head.goto(0, 0)
         self.direction = "stop"
         self.segments = []
-    
+
     def create_segment(self):
         new_segment = turtle.Turtle()
         new_segment.shape("square")
         new_segment.color("grey")
         new_segment.penup()
+        # Agrega el nuevo segmento a la lista de segmentos
+        self.segments.append(new_segment) 
         return new_segment
 
 class Food:

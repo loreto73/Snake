@@ -20,11 +20,9 @@ def main():
     # Bucle principal
     while True:
         screen.update()
-        
+        time.sleep(0.1)
         move_snake(snake)
-        
         check_food_collision(snake, food)
-        
         if check_wall_collision(snake) or check_self_collision(snake):
             game_over(screen)
             break
