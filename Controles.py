@@ -1,11 +1,5 @@
 def setup_controls(screen, snake):
-    """Configura los controles del juego.
-    Esta función establece la escucha de eventos de teclado y asigna funciones a las teclas de flecha.
-
-    Args:
-        screen: La pantalla donde se muestra el juego.
-        snake: El objeto que representa a la serpiente.
-    """
+    """Configura los controles del juego"""
     screen.listen()
     screen.onkeypress(lambda: set_direction(snake, "up"), "Up")
     screen.onkeypress(lambda: set_direction(snake, "down"), "Down")
@@ -13,13 +7,7 @@ def setup_controls(screen, snake):
     screen.onkeypress(lambda: set_direction(snake, "right"), "Right")
 
 def set_direction(snake, direction):
-    """Establece la dirección de la serpiente.
-    Esta función actualiza la dirección de la serpiente, evitando cambios de dirección inmediatos.
-
-    Args:
-        snake: El objeto que representa a la serpiente.
-        direction: La nueva dirección deseada.
-    """
+    """Establece la dirección de la serpiente"""
     opposite_directions = {
         "up": "down",
         "down": "up",
@@ -30,13 +18,7 @@ def set_direction(snake, direction):
         snake.direction = direction
 
 def move_snake(snake):
-    """Mueve la serpiente.
-
-    Esta función actualiza las posiciones de todos los segmentos de la serpiente.
-
-    Args:
-        snake: El objeto que representa a la serpiente.
-    """
+    """Mueve la serpiente"""
     # Mueve la cabeza de la serpiente
     if snake.direction == "up":
         snake.head.sety(snake.head.ycor() + 20)
