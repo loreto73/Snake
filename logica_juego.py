@@ -4,10 +4,11 @@ import time
 def check_food_collision(snake, food):
     """Comprueba si la serpiente come la comida"""
     if snake.head.distance(food.food) < 20:
-        # Genera nueva posición para la comida
-        new_food_positions = [(seg.xcor(), seg.ycor()) for seg in snake.segments]
-        food.generate(new_food_positions)
-        snake.add_segment()
+        # Genera nueva posición para la comida evitando el cuerpo de la serpiente
+        snake_positions = [(snake.head.xcor(), snake.head.ycor())]
+        for segment in snake.segments:
+            snake_positions.append((segment.xcor(), segment.ycor()))
+        food.generate(snake_positions)
         return True
     return False
 
@@ -18,8 +19,8 @@ def check_wall_collision(snake):
 
 def check_self_collision(snake):
     """Comprueba colisión de la serpiente consigo misma"""
-    for segment in snake.segments[1:]:
-        if snake.head.distance(segment) < 10:
+    for segment in snake.segments[1:]:  # Ignora el primer segmento que siempre estará cerca de la cabeza
+        if segment.distance(snake.head) < 10:
             return True
     return False
 

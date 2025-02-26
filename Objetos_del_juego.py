@@ -19,12 +19,8 @@ class Snake:
         new_segment.color("grey")
         new_segment.penup()
         
-        # Posicionar nuevo segmento
-        if not self.segments:
-            new_segment.goto(self.head.xcor(), self.head.ycor())
-        else:
-            last_segment = self.segments[-1]
-            new_segment.goto(last_segment.xcor(), last_segment.ycor())
+        # Posicionar nuevo segmento fuera de pantalla inicialmente para evitar colisiones falsas
+        new_segment.goto(1000, 1000)
         
         self.segments.append(new_segment)
 
@@ -37,14 +33,17 @@ class Food:
         self.generate()
     
     def generate_position(self, avoid_positions=None):
-        """Genera una posición aleatoria evitando posiciones ocupadas"""
+        """Genera una posición aleatoria evitando posiciones ocupadas y alineada a la cuadrícula"""
         if avoid_positions is None:
             avoid_positions = []
             
         while True:
-            x = random.randint(-280, 280)
-            y = random.randint(-280, 280)
-            if (x, y) not in avoid_positions:
+            # Genera coordenadas en múltiplos de 20 para alinear con el movimiento de la serpiente
+            x = random.randint(-14, 14) * 20
+            y = random.randint(-14, 14) * 20
+            
+            # Verifica que la posición no esté ocupada por la serpiente
+            if not any(abs(pos[0] - x) < 10 and abs(pos[1] - y) < 10 for pos in avoid_positions):
                 return (x, y)
     
     def generate(self, avoid_positions=None):

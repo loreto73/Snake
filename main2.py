@@ -23,29 +23,23 @@ def main():
     score_display.goto(0, 270)
     score_display.write(f"Puntuación: {score}", align="center", font=("Courier", 16, "normal"))
 
-    game_is_on = True
-    while game_is_on:
+    while True:
         screen.update()
-        
-        # Primero mover la serpiente
         move_snake(snake)
-        
-        # Luego comprobar colisiones
+
         if check_food_collision(snake, food):
-            # La serpiente ha comido la comida
             score += 1
             score_display.clear()
             score_display.write(f"Puntuación: {score}", align="center", font=("Courier", 16, "normal"))
-            snake.add_segment()  # Añade segmento
+            snake.add_segment()
+            food.generate()
 
-        # Comprobar colisiones con paredes o consigo misma
+        velocidad = max(0.1, 0.2 - 0.002 * len(snake.segments)) # Velocidad inicial más lenta
+        time.sleep(velocidad)
+
         if check_wall_collision(snake) or check_self_collision(snake):
             game_over(screen, score)
-            game_is_on = False
-
-        # Ajusta la velocidad según el tamaño de la serpiente
-        velocidad = max(0.1, 0.2 - 0.002 * len(snake.segments))
-        time.sleep(velocidad)
+            break
 
 if __name__ == "__main__":
     main()

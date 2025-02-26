@@ -14,12 +14,25 @@ def set_direction(snake, direction):
         "left": "right",
         "right": "left"
     }
-    if snake.direction != opposite_directions[direction]:
+    # No permitir cambiar a la dirección opuesta
+    if snake.direction != opposite_directions.get(direction, None):
         snake.direction = direction
 
 def move_snake(snake):
     """Mueve la serpiente"""
-    # Mueve la cabeza de la serpiente
+    # Mueve primero los segmentos del cuerpo (desde el último al primero)
+    for index in range(len(snake.segments)-1, 0, -1):
+        x = snake.segments[index-1].xcor()
+        y = snake.segments[index-1].ycor()
+        snake.segments[index].goto(x, y)
+        
+    # El primer segmento sigue a la cabeza
+    if snake.segments:
+        x_head = snake.head.xcor()
+        y_head = snake.head.ycor()
+        snake.segments[0].goto(x_head, y_head)
+    
+    # Ahora mueve la cabeza de la serpiente
     if snake.direction == "up":
         snake.head.sety(snake.head.ycor() + 20)
     elif snake.direction == "down":
@@ -28,13 +41,3 @@ def move_snake(snake):
         snake.head.setx(snake.head.xcor() - 20)
     elif snake.direction == "right":
         snake.head.setx(snake.head.xcor() + 20)
-
-    # Mueve los segmentos del cuerpo de la serpiente
-    for index in range(len(snake.segments)-1, 0, -1):
-        x = snake.segments[index-1].xcor()
-        y = snake.segments[index-1].ycor()
-        snake.segments[index].goto(x, y)
-        
-    # El primer segmento (cuello) sigue a la cabeza
-    if snake.segments:
-        snake.segments[0].goto(snake.head.xcor(), snake.head.ycor())
